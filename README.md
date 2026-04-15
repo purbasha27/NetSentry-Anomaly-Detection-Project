@@ -153,7 +153,7 @@ For complete real-time detection with Vercel + Heroku/Railway backend:
    - Dashboard will now communicate with your live API
    - Real-time detections from Kali attacks will display
 
-## � Project Workflow
+## 🧩 Project Workflow
 
 ### Data Processing Pipeline
 
