@@ -156,6 +156,38 @@ function clearDetectionLog() {
     updateDetectionStats();
 }
 
+function exportDetectionsCSV() {
+    if (detectionStats.attackHistory.length === 0) {
+        alert("No detections to export!");
+        return;
+    }
+    
+    let csvContent = "Time,Type,Source IP,Destination IP,Anomaly Score,Reason\n";
+    
+    detectionStats.attackHistory.forEach(function(row) {
+        let rowArray = [
+            row.time,
+            row.type,
+            row.srcIp,
+            row.dstIp,
+            row.score,
+            row.reason
+        ];
+        let rowString = rowArray.map(field => `"${String(field).replace(/"/g, '""')}"`).join(",");
+        csvContent += rowString + "\n";
+    });
+    
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "netsentry_detections_" + new Date().getTime() + ".csv");
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
 function generateRandomIp() {
     const options = ['192.168.1.5', '10.0.0.54', '172.16.254.100', '192.168.1.105'];
     return options[Math.floor(Math.random() * options.length)];
